@@ -12,14 +12,10 @@ class Login extends React.Component {
 
   handleChange = ({ target }) => {
     const { name, value } = target;
-    const verifyValidate = (() => {
-      const { email, password } = this.state;
-      const minLength = 6;
-      const passwordValidate = password.length >= minLength;
-      const regularExpressionEmailValidate = /\S+@\S+\.\S+/;
-      return regularExpressionEmailValidate.test(email) && passwordValidate;
-    })();
-    this.setState({ [name]: value, isDisabled: !verifyValidate });
+    this.setState({ [name]: value }, () => {
+      const isFormValid = this.validateForm(this.state);
+      this.setState({ isDisabled: !isFormValid });
+    });
   };
 
   loginBtn = () => {
@@ -27,6 +23,14 @@ class Login extends React.Component {
     const { dispatch, history } = this.props;
     dispatch(saveEmail(email));
     history.push('/carteira');
+  };
+
+  validateForm = () => {
+    const { email, password } = this.state;
+    const minLength = 6;
+    const isPasswordValid = password.length >= minLength;
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email) && isPasswordValid;
   };
 
   render() {
@@ -40,8 +44,11 @@ class Login extends React.Component {
             type="text"
             value={ email }
             onChange={ this.handleChange }
+            name="email"
           />
+
         </label>
+
         <label htmlFor="password">
           Senha
           <input
@@ -49,15 +56,17 @@ class Login extends React.Component {
             type="password"
             value={ password }
             onChange={ this.handleChange }
+            name="password"
           />
+
         </label>
         <button
           onClick={ this.loginBtn }
           disabled={ isDisabled }
         >
           Entrar
-
         </button>
+
       </div>
     );
   }
