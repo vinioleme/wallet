@@ -1,10 +1,10 @@
 import { ACTION_SAVE_EMAIL } from '../actions';
 
-const initialState = {
+const INITIAL_STATE = {
   email: '',
 };
 
-const user = (state = initialState, action) => {
+const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case ACTION_SAVE_EMAIL:
     return {
