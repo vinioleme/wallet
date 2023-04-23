@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import proptypes from 'prop-types';
 import { connect } from 'react-redux';
-import { API_CURRENCIES } from '../redux/actions';
+import { API_CURRENCIES, API_EXPENSES } from '../redux/actions';
 
 class WalletForm extends Component {
   state = {
@@ -18,16 +18,44 @@ class WalletForm extends Component {
   }
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    const {
+      name,
+      value } = event.target;
     this.setState({ [name]: value });
+  };
+
+  // Função para salvar as despesas:
+  inputExpenses = () => {
+    const {
+      dispatch,
+      expenses } = this.props;
+
+    const newExpense = {
+      ...this.state,
+      id: expenses.length,
+    };
+
+    dispatch(API_EXPENSES(newExpense));
+
+    this.setState({
+      currency: 'USD',
+      value: '',
+      description: '',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+
+    });
   };
 
   render() {
     const { currencies } = this.props;
+
     const { currency, description, value, method, tag } = this.state;
+
     return (
 
       <p>
+
         {/* Campo para Valor */}
         <span>
           <label htmlFor="value">
@@ -105,13 +133,23 @@ class WalletForm extends Component {
             onChange={ this.handleChange }
           >
             Tag:
+            <option value="Saúde">Saúde</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Trabalho">Trabalho</option>
             <option value="Alimentação">Alimentação</option>
             <option value="Lazer">Lazer</option>
-            <option value="Trabalho">Trabalho</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Saúde">Saúde</option>
+
           </select>
         </span>
+
+        {/* Botão para adicionar despesa */}
+        <button
+          type="button"
+          data-testid="button-submit"
+          onClick={ () => this.inputExpenses(this.state) }
+        >
+          Adicionar despesa
+        </button>
 
       </p>
 
@@ -127,6 +165,9 @@ const mapStateToProps = (state) => ({
 WalletForm.propTypes = {
   currencies: proptypes.arrayOf(proptypes.string).isRequired,
   dispatch: proptypes.func.isRequired,
+  expenses: proptypes.arrayOf(proptypes.shape({
+    currency: proptypes.string.isRequired,
+  })).isRequired,
 };
 
 export default connect(mapStateToProps)(WalletForm);
