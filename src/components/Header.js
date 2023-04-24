@@ -18,8 +18,9 @@ class Header extends Component {
           Despesa Total:
           <p data-testid="total-field">
             {expenses
-              .reduce((acc, expense) => acc + (Number(expense
-                .value) * Number(expense.exchangeRates[expense.currency].ask)), 0)
+              .map((expense) => Number(expense.value)
+              * Number(expense.exchangeRates[expense.currency].ask))
+              .reduce((acc, value) => acc + value, 0)
               .toFixed(2)}
           </p>
         </span>

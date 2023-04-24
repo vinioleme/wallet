@@ -10,14 +10,6 @@ class Login extends React.Component {
     isDisabled: true,
   };
 
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({ [name]: value }, () => {
-      const isFormValid = this.validateForm(this.state);
-      this.setState({ isDisabled: !isFormValid });
-    });
-  };
-
   loginBtn = () => {
     const { email } = this.state;
     const { dispatch, history } = this.props;
@@ -31,6 +23,14 @@ class Login extends React.Component {
     const isPasswordValid = password.length >= minLength;
     const emailRegex = /\S+@\S+\.\S+/;
     return emailRegex.test(email) && isPasswordValid;
+  };
+
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value }, () => {
+      const isFormValid = this.validateForm(this.state);
+      this.setState({ isDisabled: !isFormValid });
+    });
   };
 
   render() {

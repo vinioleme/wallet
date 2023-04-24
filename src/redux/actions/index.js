@@ -1,10 +1,16 @@
 export const ACTION_SAVE_EMAIL = 'ACTION_SAVE_EMAIL';
 export const CURRENCIES_ACTION = 'CURRENCIES';
 export const SAVE_ACTION = 'SAVE_ACTION';
+export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 
 export const saveEmail = (email) => ({
   type: ACTION_SAVE_EMAIL,
   payload: email,
+});
+
+export const removeExpense = (id) => ({
+  type: REMOVE_EXPENSE,
+  payload: id,
 });
 
 // Para Salvar as moedas

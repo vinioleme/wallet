@@ -20,7 +20,8 @@ class WalletForm extends Component {
   handleChange = (event) => {
     const {
       name,
-      value } = event.target;
+      value,
+    } = event.target;
     this.setState({ [name]: value });
   };
 

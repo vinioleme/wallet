@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import { removeExpense } from '../redux/actions';
 
 //  Implemente a lógica para que a tabela seja alimentada pelo estado da aplicação
 
 class Table extends Component {
+  deleteFunction = (id) => {
+    const { dispatch } = this.props;
+    dispatch(removeExpense(id));
+  };
+
   render() {
     const { expenses } = this.props;
 
@@ -49,6 +55,17 @@ class Table extends Component {
 
                   </td>
                   <td>Real</td>
+                  <td>
+
+                    <button
+                      data-testid="delete-btn"
+                      type="button"
+                      onClick={ () => this.deleteFunction(expense.id) }
+                    >
+                      Excluir
+                    </button>
+
+                  </td>
                 </tr>
               ))
             }
@@ -66,6 +83,7 @@ const mapStateToProps = (state) => ({
 Table.propTypes = {
   expenses: propTypes.arrayOf(propTypes.shape({
   })).isRequired,
+  dispatch: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(Table);

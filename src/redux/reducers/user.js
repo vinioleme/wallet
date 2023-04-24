@@ -12,6 +12,7 @@ const user = (state = INITIAL_STATE, action) => {
       email: action.payload,
     };
   default:
+
     return state;
   }
 };
