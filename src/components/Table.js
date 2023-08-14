@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { removeExpense } from '../redux/actions';
 
-//  Implemente a lógica para que a tabela seja alimentada pelo estado da aplicação
-
 class Table extends Component {
   deleteFunction = (id) => {
     const { dispatch } = this.props;
